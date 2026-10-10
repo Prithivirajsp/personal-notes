@@ -4,7 +4,7 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const API_BASE = "http://127.0.0.1:8000/api";
+const API_BASE = "https://prithivirajsp.github.io/personal-notes/";
 
 const state = {
   view: "all",
