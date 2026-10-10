@@ -150,10 +150,9 @@ async function loadAll() {
       apiGet("/tasks"),
       apiGet("/notes"),
       apiGet("/events"),
-      apiGet("/stats"),
     ]);
 
-    const [booksResult, tasksResult, notesResult, eventsResult, statsResult] =
+    const [booksResult, tasksResult, notesResult, eventsResult] =
       results;
 
     const requiredResults = [
@@ -174,11 +173,7 @@ async function loadAll() {
     state.notes = notesResult.value;
     state.events = eventsResult.value;
 
-    if (statsResult.status === "fulfilled") {
-      renderStats(statsResult.value);
-    } else {
-      renderStatsLocally();
-    }
+  renderStatsLocally();
 
     render();
   } catch (error) {
