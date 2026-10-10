@@ -41,6 +41,7 @@ const VIEW_META = {
 // ============================================================
 // API HELPERS
 // ============================================================
+
 async function apiSend(path, method = "GET", body) {
   let response;
 
@@ -52,33 +53,38 @@ async function apiSend(path, method = "GET", body) {
     });
   } catch (error) {
     throw new Error(
-      "Backend connect aagala. FastAPI server running-la irukka nu check pannunga."
+      "Backend connect aagala. Render URL and CORS settings check pannunga."
     );
-  }
-
-  if (!response.ok) {
-    let message = "";
-
-    try {
-      const data = await response.json();
-      message = JSON.stringify(data.detail || data);
-    } catch {
-      message = await response.text();
-    }
-
-    throw new Error(`${method} ${path} failed (${response.status}): ${message}`);
   }
 
   if (response.status === 204) return null;
 
-  const text = await response.text();
-  return text ? JSON.parse(text) : null;
-}
+  // Response body-ai ore murai mattum read pannuvom.
+  const responseText = await response.text();
 
-const apiGet = (path) => apiSend(path, "GET");
-const apiPost = (path, body) => apiSend(path, "POST", body);
-const apiPut = (path, body) => apiSend(path, "PUT", body);
-const apiDelete = (path) => apiSend(path, "DELETE");
+  if (!response.ok) {
+    let message = responseText;
+
+    try {
+      const data = JSON.parse(responseText);
+      message = JSON.stringify(data.detail ?? data);
+    } catch {
+      // Response JSON illa na original text-ai use pannuvom.
+    }
+
+    throw new Error(
+      `${method} ${path} failed (${response.status}): ${message}`
+    );
+  }
+
+  if (!responseText) return null;
+
+  try {
+    return JSON.parse(responseText);
+  } catch {
+    throw new Error(`Invalid JSON returned by backend for ${path}`);
+  }
+}
 
 // ============================================================
 // HELPERS
