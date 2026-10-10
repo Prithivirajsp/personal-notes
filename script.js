@@ -4,7 +4,7 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const API_BASE = "https://personal-notes-2-4ezl.onrender.com";
+const API_BASE = "https://personal-notes-2-4ezl.onrender.com/api";
 
 const state = {
   view: "all",
