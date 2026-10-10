@@ -4,7 +4,7 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const API_BASE = "https://prithivirajsp.github.io/personal-notes/";
+const API_BASE = "https://personal-notes-2-4ezl.onrender.com";
 
 const state = {
   view: "all",
