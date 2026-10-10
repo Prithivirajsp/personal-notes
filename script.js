@@ -86,6 +86,12 @@ async function apiSend(path, method = "GET", body) {
   }
 }
 
+
+const apiGet = (path) => apiSend(path, "GET");
+const apiPost = (path, body) => apiSend(path, "POST", body);
+const apiPut = (path, body) => apiSend(path, "PUT", body);
+const apiDelete = (path) => apiSend(path, "DELETE");
+
 // ============================================================
 // HELPERS
 // ============================================================
