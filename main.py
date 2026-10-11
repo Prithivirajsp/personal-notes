@@ -10,6 +10,15 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
 from database import Base, engine, get_db
+
+from sqlalchemy import UniqueConstraint
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from pwdlib import PasswordHash
+from jose import jwt, JWTError
+from datetime import datetime, timedelta
+from fastapi.security import OAuth2PasswordBearer
+
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -61,6 +70,18 @@ class Event(Base):
     is_done = Column(Boolean, default=False, nullable=False)
 
 
+ # ============================================================
+# USER MODEL
+# ============================================================
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_name = Column(String(100), nullable=False)
+    user_id = Column(String(100), unique=True, nullable=False, index=True)
+    password_hash = Column(String(255), nullable=False)
+    
 Base.metadata.create_all(bind=engine)
 
 
